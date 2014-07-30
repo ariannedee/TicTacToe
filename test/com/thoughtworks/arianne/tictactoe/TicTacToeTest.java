@@ -12,25 +12,21 @@ public class TicTacToeTest {
     PrintStream printStream;
     BufferedReader bufferedReader;
     TicTacToe ticTacToe;
+    Board board;
 
     @Before
     public void setUp() {
         printStream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
-        char[] gameState = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
-        ticTacToe = new TicTacToe(printStream, bufferedReader, gameState);
+        board = mock(Board.class);
+        ticTacToe = new TicTacToe(printStream, bufferedReader, board);
     }
 
     @Test
     public void shouldDrawBoardWhenGameStarts() {
         ticTacToe.start();
 
-        verify(printStream).println(
-                        "   |   |  \n" +
-                        "-----------\n" +
-                        "   |   |  \n" +
-                        "-----------\n" +
-                        "   |   |  ");
+        verify(board).draw();
     }
 
     @Test
@@ -41,24 +37,27 @@ public class TicTacToeTest {
     }
 
     @Test
+    public void shouldPromptPlayer1ToMoveWhenGameStarts() throws IOException {
+        ticTacToe.start();
+
+        verify(printStream).println("Player 1: (enter a number from 1-9)");
+    }
+
+    @Test
     public void shouldDrawNewBoardWithValidUserMove() throws IOException {
         when(bufferedReader.readLine()).thenReturn("4");
 
         ticTacToe.newTurn();
 
-        verify(printStream).println("   |   |  \n" +
-                "-----------\n" +
-                " X |   |  \n" +
-                "-----------\n" +
-                "   |   |  ");
+        verify(board).draw();
     }
 
     @Test
-    public void shouldNotDrawNewBoardWithInvalidUserMove() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("S");
+    public void shouldMakeMoveWithValidUserMove() throws IOException {
+        when(bufferedReader.readLine()).thenReturn("4");
 
         ticTacToe.newTurn();
 
-        verify(printStream, times(0)).println(anyString());
+        verify(board).makeMove(4);
     }
 }

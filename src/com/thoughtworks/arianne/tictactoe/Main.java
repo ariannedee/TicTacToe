@@ -6,8 +6,9 @@ import java.io.InputStreamReader;
 public class Main {
 
     public static void main(String[] args) {
-        char[] gameState = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-        TicTacToe ticTacToe = new TicTacToe(System.out, new BufferedReader(new InputStreamReader(System.in)), gameState);
+        Board board = new Board(System.out);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        TicTacToe ticTacToe = new TicTacToe(System.out, bufferedReader, board);
         ticTacToe.start();
     }
 }

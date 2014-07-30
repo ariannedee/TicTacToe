@@ -5,44 +5,33 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 public class TicTacToe {
-    PrintStream printStream;
+    private PrintStream printStream;
     private BufferedReader bufferedReader;
-    private char[] gameState;
+    private Board board;
 
-    public TicTacToe(PrintStream printStream, BufferedReader bufferedReader, char[] gameState) {
+    public TicTacToe(PrintStream printStream, BufferedReader bufferedReader, Board board) {
         this.printStream = printStream;
         this.bufferedReader = bufferedReader;
-        this.gameState = gameState;
+        this.board = board;
     }
 
     public void start() {
-        drawBoard(gameState);
-
+        board.draw();
         newTurn();
     }
 
-    private void drawBoard(char[] gameState) {
-        String board = String.format(" %c | %c | %c\n" +
-                "-----------\n" +
-                " %c | %c | %c\n" +
-                "-----------\n" +
-                " %c | %c | %c", gameState[0], gameState[1], gameState[2], gameState[3], gameState[4], gameState[5],
-                gameState[6], gameState[7], gameState[8]);
-        printStream.println(board);
-    }
-
-
     public void newTurn() {
-        String userMove;
+        printStream.println("Player 1: (enter a number from 1-9)");
+
         try {
-            userMove = bufferedReader.readLine();
+            String userMove = bufferedReader.readLine();
             int moveAsInt = Integer.parseInt(userMove);
-            gameState[moveAsInt-1] = 'X';
-            drawBoard(gameState);
+            board.makeMove(moveAsInt);
+            board.draw();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
-            //printStream.println("Try again");
+            //e.printStackTrace();
         }
     }
 }
