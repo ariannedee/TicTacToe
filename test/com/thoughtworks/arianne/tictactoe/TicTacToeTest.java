@@ -37,19 +37,37 @@ public class TicTacToeTest {
     }
 
     @Test
-    public void shouldPromptPlayer1ToMoveWhenGameStarts() throws IOException {
-        ticTacToe.start();
-
-        verify(printStream).println("Player 1: (enter a number from 1-9)");
-    }
-
-    @Test
     public void shouldDrawNewBoardWithValidUserMove() throws IOException {
         when(bufferedReader.readLine()).thenReturn("4");
 
         ticTacToe.newTurn(true);
 
         verify(board).draw();
+    }
+
+    @Test
+    public void shouldNotDrawNewBoardWithNanInput() throws IOException {
+        when(bufferedReader.readLine()).thenReturn("s");
+
+        ticTacToe.newTurn(true);
+
+        verify(board, times(0)).draw();
+    }
+
+    @Test
+    public void shouldNotDrawNewBoardWithUserMoveOutOfRange() throws IOException {
+        when(bufferedReader.readLine()).thenReturn("10");
+
+        ticTacToe.newTurn(true);
+
+        verify(board, times(0)).draw();
+    }
+
+    @Test
+    public void shouldPromptPlayer1ToMoveWhenGameStarts() throws IOException {
+        ticTacToe.start();
+
+        verify(printStream).println("Player 1: (enter a number from 1-9)");
     }
 
     @Test
