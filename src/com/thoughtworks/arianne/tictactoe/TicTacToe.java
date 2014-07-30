@@ -17,21 +17,41 @@ public class TicTacToe {
 
     public void start() {
         board.draw();
-        newTurn();
+        boolean isPlayer2 = false;
+        boolean gameInProgress = true;
+
+        while(gameInProgress) {
+            gameInProgress = newTurn(isPlayer2);
+            isPlayer2 = !isPlayer2;
+        }
     }
 
-    public void newTurn() {
-        printStream.println("Player 1: (enter a number from 1-9)");
+    public boolean newTurn(boolean isPlayer2) {
+        int player = isPlayer2? 2 : 1;
 
+        printPrompt(player);
+        int move = getPlayerMove();
+        if (move == 0) return false;
+        board.makeMove(move);
+        board.draw();
+
+        return true;
+    }
+
+    private int getPlayerMove() {
         try {
             String userMove = bufferedReader.readLine();
-            int moveAsInt = Integer.parseInt(userMove);
-            board.makeMove(moveAsInt);
-            board.draw();
+            return Integer.parseInt(userMove);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
             //e.printStackTrace();
         }
+        return 0;
+    }
+
+    private void printPrompt(int player) {
+        printStream.println("Player " + player + ": (enter a number from 1-9)");
     }
 }
