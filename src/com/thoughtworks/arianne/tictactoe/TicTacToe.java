@@ -17,32 +17,31 @@ public class TicTacToe {
 
     public void start() {
         board.draw();
-        boolean isPlayer2 = false;
-        boolean gameInProgress = true;
+        boolean isPlayer1 = true, gameInProgress = true;
 
         while(gameInProgress) {
-            gameInProgress = newTurn(isPlayer2);
-            isPlayer2 = !isPlayer2;
+            gameInProgress = newTurn(isPlayer1);
+            isPlayer1 = !isPlayer1;
         }
     }
 
-    public boolean newTurn(boolean isPlayer2) {
-        int player = isPlayer2? 2 : 1;
+    public boolean newTurn(boolean isPlayer1) {
+        int player = isPlayer1? 1 : 2;
 
         printPrompt(player);
-        int move = getPlayerMove();
+        int move = getPlayerMoveInput();
         if (move == 0) return false;
-        board.makeMove(move);
+        board.makeMoveForPlayer(move, isPlayer1);
         board.draw();
 
         return true;
     }
 
-    private int getPlayerMove() {
+    private int getPlayerMoveInput() {
         try {
-            String userMove = bufferedReader.readLine();
-            return Integer.parseInt(userMove);
-
+            String userInput = bufferedReader.readLine();
+            int userMove = Integer.parseInt(userInput);
+            return (userMove > 0 && userMove < 10)? userMove : 0;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {

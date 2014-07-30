@@ -31,8 +31,8 @@ public class BoardTest {
     }
 
     @Test
-    public void drawBoardWithOneMove() {
-        board.makeMove(3);
+    public void drawBoardWithPlayerOneMove() {
+        board.makeMoveForPlayer(3, true);
         board.draw();
 
         verify(printStream).println(
@@ -43,4 +43,16 @@ public class BoardTest {
                         "   |   |  ");
     }
 
+    @Test
+    public void drawBoardWithPlayerTwoMove() {
+        board.makeMoveForPlayer(3, false);
+        board.draw();
+
+        verify(printStream).println(
+                "   |   | O\n" +
+                        "-----------\n" +
+                        "   |   |  \n" +
+                        "-----------\n" +
+                        "   |   |  ");
+    }
 }

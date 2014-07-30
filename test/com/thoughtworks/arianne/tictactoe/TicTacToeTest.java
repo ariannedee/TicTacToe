@@ -47,18 +47,18 @@ public class TicTacToeTest {
     public void shouldDrawNewBoardWithValidUserMove() throws IOException {
         when(bufferedReader.readLine()).thenReturn("4");
 
-        ticTacToe.newTurn(false);
+        ticTacToe.newTurn(true);
 
         verify(board).draw();
     }
 
     @Test
-    public void shouldMakeMoveWithValidUserMove() throws IOException {
+    public void shouldMakeMoveForPlayer1() throws IOException {
         when(bufferedReader.readLine()).thenReturn("4").thenReturn("");
 
-        ticTacToe.newTurn(false);
+        ticTacToe.start();
 
-        verify(board).makeMove(4);
+        verify(board).makeMoveForPlayer(4, true);
     }
 
     @Test
@@ -78,6 +78,7 @@ public class TicTacToeTest {
 
         ticTacToe.start();
 
-        verify(board, times(2)).makeMove(4);
+        verify(board).makeMoveForPlayer(4, true);
+        verify(board).makeMoveForPlayer(4, false);
     }
 }
