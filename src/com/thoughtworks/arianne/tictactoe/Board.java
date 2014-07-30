@@ -20,8 +20,12 @@ public class Board {
         printStream.println(board);
     }
 
-    public void makeMoveForPlayer(int space, boolean isPlayer1) {
-        char playerChar = isPlayer1? 'X' : 'O';
-        gameState[space-1] = playerChar;
+    public boolean makeMoveForPlayer(int space, boolean isPlayer1) {
+        if (gameState[space-1] == ' ') {
+            char playerChar = isPlayer1 ? 'X' : 'O';
+            gameState[space - 1] = playerChar;
+            return true;
+        }
+        return false;
     }
 }

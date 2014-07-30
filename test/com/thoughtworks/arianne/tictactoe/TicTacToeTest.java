@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+
 import static org.mockito.Mockito.*;
 
 public class TicTacToeTest {
@@ -20,6 +21,7 @@ public class TicTacToeTest {
         bufferedReader = mock(BufferedReader.class);
         board = mock(Board.class);
         ticTacToe = new TicTacToe(printStream, bufferedReader, board);
+        when(board.makeMoveForPlayer(4, true)).thenReturn(true);
     }
 
     @Test
@@ -57,6 +59,7 @@ public class TicTacToeTest {
     @Test
     public void shouldNotDrawNewBoardWithUserMoveOutOfRange() throws IOException {
         when(bufferedReader.readLine()).thenReturn("10");
+        when(board.makeMoveForPlayer(4, true)).thenReturn(false);
 
         ticTacToe.newTurn(true);
 
@@ -98,5 +101,26 @@ public class TicTacToeTest {
 
         verify(board).makeMoveForPlayer(4, true);
         verify(board).makeMoveForPlayer(4, false);
+    }
+
+//    @Test
+//    public void shouldRepeatTurnIfLocationTaken() throws IOException {
+//        when(bufferedReader.readLine()).thenReturn("5").thenReturn("5").thenReturn("s");
+//        when(board.makeMoveForPlayer(5, true)).thenReturn(true).thenReturn(false);
+//
+//        ticTacToe.start();
+//
+//        verify(printStream, times(2)).println("Player 1: (enter a number from 1-9)");
+//    }
+
+    @Test
+    public void shouldNotRepeatTurnIfLocationFree() throws IOException {
+        when(bufferedReader.readLine()).thenReturn("4").thenReturn("s");
+        when(board.makeMoveForPlayer(4, true)).thenReturn(true);
+
+        ticTacToe.start();
+
+        verify(printStream).println("Player 1: (enter a number from 1-9)");
+        verify(printStream).println("Player 2: (enter a number from 1-9)");
     }
 }

@@ -28,12 +28,14 @@ public class TicTacToe {
     public boolean newTurn(boolean isPlayer1) {
         int player = isPlayer1? 1 : 2;
 
+
         printPrompt(player);
         int move = getPlayerMoveInput();
-        if (move == 0) return false;
-        board.makeMoveForPlayer(move, isPlayer1);
-        board.draw();
 
+        if (move == 0) return false;
+        if(!board.makeMoveForPlayer(move, isPlayer1)) return false;
+
+        board.draw();
         return true;
     }
 

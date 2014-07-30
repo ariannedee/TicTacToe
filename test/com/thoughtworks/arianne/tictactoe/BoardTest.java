@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.io.PrintStream;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -19,7 +21,7 @@ public class BoardTest {
     }
 
     @Test
-    public void drawStartingBoard() {
+    public void shouldDrawStartingBoard() {
         board.draw();
 
         verify(printStream).println(
@@ -31,7 +33,7 @@ public class BoardTest {
     }
 
     @Test
-    public void drawBoardWithPlayerOneMove() {
+    public void shouldDrawBoardWithPlayerOneMove() {
         board.makeMoveForPlayer(3, true);
         board.draw();
 
@@ -44,7 +46,7 @@ public class BoardTest {
     }
 
     @Test
-    public void drawBoardWithPlayerTwoMove() {
+    public void shouldDrawBoardWithPlayerTwoMove() {
         board.makeMoveForPlayer(3, false);
         board.draw();
 
@@ -54,5 +56,17 @@ public class BoardTest {
                         "   |   |  \n" +
                         "-----------\n" +
                         "   |   |  ");
+    }
+
+    @Test
+    public void shouldSeeThatLocationIsNotTaken() {
+        assertThat(board.makeMoveForPlayer(3,false), is(true));
+    }
+
+    @Test
+    public void shouldSeeIfLocationIsAlreadyTaken() {
+        board.makeMoveForPlayer(3,true);
+
+        assertThat(board.makeMoveForPlayer(3,false), is(false));
     }
 }
