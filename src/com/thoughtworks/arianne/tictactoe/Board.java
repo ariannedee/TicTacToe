@@ -28,4 +28,12 @@ public class Board {
         }
         return false;
     }
+
+    public boolean makeMoveWithSymbol(int location, char symbol) {
+        if (gameState[location-1] == ' ') {
+            gameState[location - 1] = symbol;
+            return true;
+        }
+        return false;
+    }
 }

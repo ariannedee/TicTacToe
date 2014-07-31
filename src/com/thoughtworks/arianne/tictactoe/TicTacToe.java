@@ -8,35 +8,33 @@ public class TicTacToe {
     private PrintStream printStream;
     private BufferedReader bufferedReader;
     private Board board;
+    private Player player1;
+    private Player player2;
 
-    public TicTacToe(PrintStream printStream, BufferedReader bufferedReader, Board board) {
+    public TicTacToe(PrintStream printStream, BufferedReader bufferedReader, Board board, Player player1, Player player2) {
         this.printStream = printStream;
         this.bufferedReader = bufferedReader;
         this.board = board;
+        this.player1 = player1;
+        this.player2 = player2;
     }
 
     public void start() {
         board.draw();
-        boolean isPlayer1 = true, gameInProgress = true;
+        boolean isPlayer1Turn = true;
 
-        while(gameInProgress) {
-            gameInProgress = newTurn(isPlayer1);
-            isPlayer1 = !isPlayer1;
+        while(true) {
+            Player player = isPlayer1Turn? player1:player2;
+            printPrompt(player.numPlayer());
+            int move = getPlayerMoveInput();
+
+            if (move == 0) break;
+
+            if(!player.makeMove(move)) break;
+
+            board.draw();
+            isPlayer1Turn = !isPlayer1Turn;
         }
-    }
-
-    public boolean newTurn(boolean isPlayer1) {
-        int player = isPlayer1? 1 : 2;
-
-
-        printPrompt(player);
-        int move = getPlayerMoveInput();
-
-        if (move == 0) return false;
-        if(!board.makeMoveForPlayer(move, isPlayer1)) return false;
-
-        board.draw();
-        return true;
     }
 
     private int getPlayerMoveInput() {
@@ -47,7 +45,7 @@ public class TicTacToe {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         return 0;
     }
