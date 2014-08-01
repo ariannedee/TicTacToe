@@ -14,7 +14,7 @@ public class Console {
     }
 
 
-    public int getValidMove() {
+    public int getPlayerMoveIfValid() {
         try {
             String userInput = bufferedReader.readLine();
             int userMove = Integer.parseInt(userInput);
@@ -22,7 +22,7 @@ public class Console {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
-            System.out.println("invalid");
+            printStream.println("Invalid number\n");
         }
         return 0;
     }
@@ -32,6 +32,6 @@ public class Console {
     }
 
     public void printLocationTakenMessage() {
-        printStream.println("Location already taken, please try again");
+        printStream.println("Location already taken, please try again\n");
     }
 }

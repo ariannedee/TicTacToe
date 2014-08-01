@@ -3,11 +3,12 @@ package com.thoughtworks.arianne.tictactoe;
 import java.io.PrintStream;
 
 public class Board {
-    private char[] gameState = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+    private char[] gameState;
     private PrintStream printStream;
 
-    public Board(PrintStream printStream) {
+    public Board(PrintStream printStream, char[] gameState) {
         this.printStream = printStream;
+        this.gameState = gameState;
     }
 
     public void draw() {
@@ -15,18 +16,9 @@ public class Board {
                         "-----------\n" +
                         " %c | %c | %c\n" +
                         "-----------\n" +
-                        " %c | %c | %c", gameState[0], gameState[1], gameState[2], gameState[3], gameState[4],
+                        " %c | %c | %c\n", gameState[0], gameState[1], gameState[2], gameState[3], gameState[4],
                 gameState[5], gameState[6], gameState[7], gameState[8]);
         printStream.println(board);
-    }
-
-    public boolean makeMoveForPlayer(int space, boolean isPlayer1) {
-        if (gameState[space-1] == ' ') {
-            char playerChar = isPlayer1 ? 'X' : 'O';
-            gameState[space - 1] = playerChar;
-            return true;
-        }
-        return false;
     }
 
     public boolean makeMoveWithSymbol(int location, char symbol) {
@@ -35,5 +27,16 @@ public class Board {
             return true;
         }
         return false;
+    }
+
+    public boolean isFilled() {
+        for (char c : gameState) {
+            if (c == ' ') {
+                return false;
+            }
+        }
+
+        printStream.println("Game is a draw");
+        return true;
     }
 }

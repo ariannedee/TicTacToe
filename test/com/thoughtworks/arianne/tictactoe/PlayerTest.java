@@ -18,39 +18,34 @@ public class PlayerTest {
         board = mock(Board.class);
         console = mock(Console.class);
         player = new Player(board, 'X', 1, console);
+        when(board.makeMoveWithSymbol(2, 'X')).thenReturn(true);
     }
 
     @Test
-    public void shouldTakeTurn() throws IOException {
+    public void shouldTakeTurnWithValidMove() throws IOException {
+        when(console.getPlayerMoveIfValid()).thenReturn(2);
 
-        player.takeTurn();
+        player.startTurn();
 
+        verify(board).makeMoveWithSymbol(2, 'X');
         verify(console).promptForPlayerTurn(1);
     }
 
     @Test
-    public void shouldMakeMove() {
-        player.makeMove(5);
+    public void shouldTakeTurnUntilValidMove() throws IOException {
+        when(console.getPlayerMoveIfValid()).thenReturn(0).thenReturn(2);
 
-        verify(board).makeMoveWithSymbol(5, 'X');
+        player.startTurn();
+
+        verify(console, times(2)).getPlayerMoveIfValid();
     }
-
-//    @Test
-//    public void shouldTakeTurnUntilValidMove() throws IOException {
-//        when(console.getValidMove()).thenReturn(2).thenReturn(2);
-//        when(board.makeMoveWithSymbol()).thenReturn(2).thenReturn(2);
-//
-//        player.takeTurn();
-//
-//        verify(board).makeMoveWithSymbol(2, 'X');
-//    }
 
     @Test
     public void shouldRepeatTurnIfLocationTaken() throws IOException {
-        when(board.makeMoveWithSymbol(1, 'X')).thenReturn(false);
-        when(console.getValidMove()).thenReturn(1).thenReturn(0);
+        when(board.makeMoveWithSymbol(1, 'X')).thenReturn(false).thenReturn(true);
+        when(console.getPlayerMoveIfValid()).thenReturn(1).thenReturn(1);
 
-        player.takeTurn();
+        player.startTurn();
 
         verify(console, times(2)).promptForPlayerTurn(1);
         verify(console).printLocationTakenMessage();

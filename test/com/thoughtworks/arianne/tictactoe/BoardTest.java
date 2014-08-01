@@ -13,11 +13,13 @@ import static org.mockito.Mockito.verify;
 public class BoardTest {
     PrintStream printStream;
     Board board;
+    private char[] gameState;
 
     @Before
     public void setUp() {
         printStream = mock(PrintStream.class);
-        board = new Board(printStream);
+        gameState = new char[]{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        board = new Board(printStream, gameState);
     }
 
     @Test
@@ -29,12 +31,12 @@ public class BoardTest {
                         "-----------\n" +
                         "   |   |  \n" +
                         "-----------\n" +
-                        "   |   |  ");
+                        "   |   |  \n");
     }
 
     @Test
     public void shouldDrawBoardWithPlayerOneMove() {
-        board.makeMoveForPlayer(3, true);
+        board.makeMoveWithSymbol(3, 'X');
         board.draw();
 
         verify(printStream).println(
@@ -42,12 +44,12 @@ public class BoardTest {
                         "-----------\n" +
                         "   |   |  \n" +
                         "-----------\n" +
-                        "   |   |  ");
+                        "   |   |  \n");
     }
 
     @Test
     public void shouldDrawBoardWithPlayerTwoMove() {
-        board.makeMoveForPlayer(3, false);
+        board.makeMoveWithSymbol(3, 'O');
         board.draw();
 
         verify(printStream).println(
@@ -55,18 +57,33 @@ public class BoardTest {
                         "-----------\n" +
                         "   |   |  \n" +
                         "-----------\n" +
-                        "   |   |  ");
+                        "   |   |  \n");
     }
 
     @Test
     public void shouldSeeThatLocationIsNotTaken() {
-        assertThat(board.makeMoveForPlayer(3,false), is(true));
+        assertThat(board.makeMoveWithSymbol(3, 'X'), is(true));
     }
 
     @Test
     public void shouldSeeIfLocationIsAlreadyTaken() {
-        board.makeMoveForPlayer(3,true);
+        board.makeMoveWithSymbol(3, 'X');
 
-        assertThat(board.makeMoveForPlayer(3,false), is(false));
+        assertThat(board.makeMoveWithSymbol(3, 'O'), is(false));
+    }
+
+    @Test
+    public void shouldReturnTrueIfGameBoardFilled() {
+        gameState = new char[]{'X', 'O', 'X', 'X', 'O', 'X', 'X', 'O', 'X'};
+        board = new Board(printStream, gameState);
+
+        assertThat(board.isFilled(), is(true));
+        verify(printStream).println("Game is a draw");
+    }
+
+    @Test
+    public void shouldReturnFalseIfGameBoardNotFilled() {
+        boolean filled = board.isFilled();
+        assertThat(filled, is(false));
     }
 }

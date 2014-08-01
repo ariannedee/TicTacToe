@@ -32,7 +32,7 @@ public class ConsoleTest {
 
     @Test
     public void shouldGetValidMove() throws IOException {
-        console.getValidMove();
+        console.getPlayerMoveIfValid();
 
         verify(bufferedReader).readLine();
     }
@@ -41,6 +41,6 @@ public class ConsoleTest {
     public void shouldPrintLocationTakenMessage() {
         console.printLocationTakenMessage();
 
-        verify(printStream).println("Location already taken, please try again");
+        verify(printStream).println("Location already taken, please try again\n");
     }
 }

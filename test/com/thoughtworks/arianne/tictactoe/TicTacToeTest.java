@@ -19,7 +19,7 @@ public class TicTacToeTest {
         player1 = mock(Player.class);
         player2 = mock(Player.class);
         ticTacToe = new TicTacToe(board, player1, player2);
-        when(board.makeMoveForPlayer(4, true)).thenReturn(true);
+        when(board.isFilled()).thenReturn(true);
     }
 
     @Test
@@ -33,22 +33,23 @@ public class TicTacToeTest {
     public void shouldStartPlayer1TurnWhenGameStarts() throws IOException {
         ticTacToe.start();
 
-        verify(player1).takeTurn();
+        verify(player1).startTurn();
     }
 
     @Test
     public void shouldMakePlayerMove() throws IOException {
         ticTacToe.start();
 
-        verify(player1).takeTurn();
+        verify(player1).startTurn();
     }
 
     @Test
     public void shouldMakeMoveForPlayer2() throws IOException {
-        when(player1.takeTurn()).thenReturn(true);
+        when(player1.startTurn()).thenReturn(true);
+        when(board.isFilled()).thenReturn(false).thenReturn(true);
 
         ticTacToe.start();
 
-        verify(player2).takeTurn();
+        verify(player2).startTurn();
     }
 }

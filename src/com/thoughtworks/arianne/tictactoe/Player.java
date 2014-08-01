@@ -14,25 +14,40 @@ public class Player {
         this.console = console;
     }
 
-    public boolean takeTurn() {
+    public boolean startTurn() {
         while (true) {
             console.promptForPlayerTurn(numPlayer);
 
-            int move = console.getValidMove();
-
-            if (move == 0) return false;
-
-            if (makeMove(move)) {
-                board.draw();
-                return true;
-
-            } else {
-                console.printLocationTakenMessage();
-            }
+            if (takeTurn()) return true;
         }
     }
 
-    public boolean makeMove(int move) {
-        return board.makeMoveWithSymbol(move, symbol);
+    private boolean takeTurn() {
+        int validLocationOr0 = console.getPlayerMoveIfValid();
+
+        if (validLocation(validLocationOr0)) {
+            boolean locationAvailable = makeMove(validLocationOr0);
+            if (locationAvailable) return true;
+        }
+        return false;
+    }
+
+    private boolean validLocation(int validLocationOr0) {
+        return validLocationOr0 > 0;
+    }
+
+    private boolean makeMove(int move) {
+        boolean validMove = board.makeMoveWithSymbol(move, symbol);
+        return handleMove(validMove);
+    }
+
+    private boolean handleMove(boolean validMove) {
+        if (validMove) {
+            board.draw();
+            return true;
+        } else {
+            console.printLocationTakenMessage();
+            return false;
+        }
     }
 }
