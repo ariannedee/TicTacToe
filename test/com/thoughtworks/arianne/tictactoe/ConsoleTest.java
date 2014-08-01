@@ -37,4 +37,10 @@ public class ConsoleTest {
         verify(bufferedReader).readLine();
     }
 
+    @Test
+    public void shouldPrintLocationTakenMessage() {
+        console.printLocationTakenMessage();
+
+        verify(printStream).println("Location already taken, please try again");
+    }
 }

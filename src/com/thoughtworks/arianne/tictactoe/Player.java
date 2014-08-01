@@ -20,19 +20,16 @@ public class Player {
 
             int move = console.getValidMove();
 
-            if (move > 0) {
-                if (makeMove(move)) {
-                    board.draw();
-                    return true;
+            if (move == 0) return false;
 
-                } else {
-                    System.out.println("location taken");
-                }
+            if (makeMove(move)) {
+                board.draw();
+                return true;
+
             } else {
-                break;
+                console.printLocationTakenMessage();
             }
         }
-        return false;
     }
 
     public boolean makeMove(int move) {

@@ -22,12 +22,16 @@ public class Console {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
-//            e.printStackTrace();
+            System.out.println("invalid");
         }
         return 0;
     }
 
     public void promptForPlayerTurn(int playerNum) {
         printStream.println("Player " + playerNum + ": (enter a number from 1-9)");
+    }
+
+    public void printLocationTakenMessage() {
+        printStream.println("Location already taken, please try again");
     }
 }

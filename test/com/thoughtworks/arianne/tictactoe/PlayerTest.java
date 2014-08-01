@@ -35,29 +35,24 @@ public class PlayerTest {
         verify(board).makeMoveWithSymbol(5, 'X');
     }
 
+//    @Test
+//    public void shouldTakeTurnUntilValidMove() throws IOException {
+//        when(console.getValidMove()).thenReturn(2).thenReturn(2);
+//        when(board.makeMoveWithSymbol()).thenReturn(2).thenReturn(2);
+//
+//        player.takeTurn();
+//
+//        verify(board).makeMoveWithSymbol(2, 'X');
+//    }
+
     @Test
-    public void shouldNotMakePlayerMoveWithNanInput() throws IOException {
-        when(console.getValidMove()).thenReturn(0);
+    public void shouldRepeatTurnIfLocationTaken() throws IOException {
+        when(board.makeMoveWithSymbol(1, 'X')).thenReturn(false);
+        when(console.getValidMove()).thenReturn(1).thenReturn(0);
 
         player.takeTurn();
 
-        verify(board, times(0)).makeMoveWithSymbol(0, 'X');
+        verify(console, times(2)).promptForPlayerTurn(1);
+        verify(console).printLocationTakenMessage();
     }
-
-    @Test
-    public void shouldUpdateBoard() {
-
-    }
-
-    //    @Test
-//    public void shouldRepeatTurnIfLocationTaken() throws IOException {
-//        when(player1.numPlayer()).thenReturn(1);
-//
-//        when(bufferedReader.readLine()).thenReturn("5").thenReturn("5").thenReturn("s");
-//        when(player2.makeMove(5)).thenReturn(false);
-//
-//        ticTacToe.start();
-//
-//        verify(printStream, times(2)).println("Player 1: (enter a number from 1-9)");
-//    }
 }
