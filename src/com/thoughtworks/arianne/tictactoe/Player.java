@@ -2,23 +2,40 @@ package com.thoughtworks.arianne.tictactoe;
 
 public class Player {
     private char symbol;
-    private Board board;
-    public int numPlayer;
+    private int numPlayer;
 
-    public Player(Board board, char symbol, int numPlayer) {
+    private Board board;
+    private Console console;
+
+    public Player(Board board, char symbol, int numPlayer, Console console) {
         this.board = board;
         this.symbol = symbol;
         this.numPlayer = numPlayer;
+        this.console = console;
     }
 
-    public void takeTurn() {
+    public boolean takeTurn() {
+        while (true) {
+            console.promptForPlayerTurn(numPlayer);
+
+            int move = console.getValidMove();
+
+            if (move > 0) {
+                if (makeMove(move)) {
+                    board.draw();
+                    return true;
+
+                } else {
+                    System.out.println("location taken");
+                }
+            } else {
+                break;
+            }
+        }
+        return false;
     }
 
     public boolean makeMove(int move) {
         return board.makeMoveWithSymbol(move, symbol);
-    }
-
-    public int numPlayer() {
-        return numPlayer;
     }
 }
