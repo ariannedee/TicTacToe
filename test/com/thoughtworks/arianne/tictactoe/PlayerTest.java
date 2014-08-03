@@ -24,6 +24,7 @@ public class PlayerTest {
     @Test
     public void shouldTakeTurnWithValidMove() throws IOException {
         when(console.getPlayerMoveIfValid()).thenReturn(2);
+        when(board.isFreeLocation(2)).thenReturn(true);
 
         player.startTurn();
 
@@ -34,6 +35,7 @@ public class PlayerTest {
     @Test
     public void shouldTakeTurnUntilValidMove() throws IOException {
         when(console.getPlayerMoveIfValid()).thenReturn(0).thenReturn(2);
+        when(board.isFreeLocation(2)).thenReturn(true);
 
         player.startTurn();
 
@@ -42,12 +44,19 @@ public class PlayerTest {
 
     @Test
     public void shouldRepeatTurnIfLocationTaken() throws IOException {
-        when(board.makeMoveWithSymbol(1, 'X')).thenReturn(false).thenReturn(true);
-        when(console.getPlayerMoveIfValid()).thenReturn(1).thenReturn(1);
+        when(board.isFreeLocation(2)).thenReturn(false);
+        when(board.isFreeLocation(1)).thenReturn(true);
+        when(console.getPlayerMoveIfValid()).thenReturn(2).thenReturn(1);
 
         player.startTurn();
 
         verify(console, times(2)).promptForPlayerTurn(1);
-        verify(console).printLocationTakenMessage();
+//        verify(console).printLocationTakenMessage();
+    }
+
+    @Test
+    public void shouldReturnTrueIfPlayerWon() {
+        when(board.makeMoveWithSymbol(1, 'X')).thenReturn(false).thenReturn(true);
+
     }
 }

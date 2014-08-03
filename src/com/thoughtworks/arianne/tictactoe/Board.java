@@ -24,7 +24,8 @@ public class Board {
     public boolean makeMoveWithSymbol(int location, char symbol) {
         if (gameState[location-1] == ' ') {
             gameState[location - 1] = symbol;
-            return true;
+
+            return false;
         }
         return false;
     }
@@ -38,5 +39,18 @@ public class Board {
 
         printStream.println("Game is a draw");
         return true;
+    }
+
+    public boolean isFreeLocation(int location) {
+        int index = location-1;
+        if (index >= 0 && index < gameState.length) {
+            if (gameState[location-1] == ' ') {
+                return true;
+            } else {
+                printStream.println("Location is taken!\n");
+            }
+        }
+
+        return false;
     }
 }

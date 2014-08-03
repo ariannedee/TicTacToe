@@ -18,36 +18,13 @@ public class Player {
         while (true) {
             console.promptForPlayerTurn(numPlayer);
 
-            if (takeTurn()) return true;
-        }
-    }
+            int validLocation = console.getPlayerMoveIfValid();
 
-    private boolean takeTurn() {
-        int validLocationOr0 = console.getPlayerMoveIfValid();
-
-        if (validLocation(validLocationOr0)) {
-            boolean locationAvailable = makeMove(validLocationOr0);
-            if (locationAvailable) return true;
-        }
-        return false;
-    }
-
-    private boolean validLocation(int validLocationOr0) {
-        return validLocationOr0 > 0;
-    }
-
-    private boolean makeMove(int move) {
-        boolean validMove = board.makeMoveWithSymbol(move, symbol);
-        return handleMove(validMove);
-    }
-
-    private boolean handleMove(boolean validMove) {
-        if (validMove) {
-            board.draw();
-            return true;
-        } else {
-            console.printLocationTakenMessage();
-            return false;
+            if (board.isFreeLocation(validLocation)) {
+                boolean didPlayerWin = board.makeMoveWithSymbol(validLocation, symbol);
+                board.draw();
+                return didPlayerWin;
+            }
         }
     }
 }

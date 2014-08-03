@@ -18,12 +18,17 @@ public class Console {
         try {
             String userInput = bufferedReader.readLine();
             int userMove = Integer.parseInt(userInput);
-            return (userMove > 0 && userMove < 10)? userMove : 0;
+            if (userMove > 0 && userMove < 10) {
+                return userMove;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
-            printStream.println("Invalid number\n");
+//            e.printStackTrace();
         }
+
+        printStream.println("Invalid number\n");
+
         return 0;
     }
 
@@ -31,7 +36,7 @@ public class Console {
         printStream.println("Player " + playerNum + ": (enter a number from 1-9)");
     }
 
-    public void printLocationTakenMessage() {
-        printStream.println("Location already taken, please try again\n");
-    }
+//    public void printLocationTakenMessage() {
+//        printStream.println("Location already taken, please try again\n");
+//    }
 }

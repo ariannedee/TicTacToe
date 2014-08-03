@@ -45,7 +45,7 @@ public class TicTacToeTest {
 
     @Test
     public void shouldMakeMoveForPlayer2() throws IOException {
-        when(player1.startTurn()).thenReturn(true);
+        when(player1.startTurn()).thenReturn(false);
         when(board.isFilled()).thenReturn(false).thenReturn(true);
 
         ticTacToe.start();

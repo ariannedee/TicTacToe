@@ -19,11 +19,11 @@ public class TicTacToe {
         while(gameInProgress) {
             Player player = isPlayer1Turn? player1 : player2;
 
-            player.startTurn();
+            boolean playerWon = player.startTurn();
 
             isPlayer1Turn = !isPlayer1Turn;
 
-            gameInProgress = !board.isFilled();
+            gameInProgress = !board.isFilled() && !playerWon;
         }
     }
 }
