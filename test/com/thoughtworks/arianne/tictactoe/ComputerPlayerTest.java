@@ -30,37 +30,43 @@ public class ComputerPlayerTest {
         List<Integer> freeLocations = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         when(board.getFreeLocations()).thenReturn(freeLocations);
 
-        computerPlayer.startTurn();
+        computerPlayer.takeTurn();
 
         verify(board).makeMoveWithSymbol(1, 'O');
     }
 
     @Test
     public void shouldTakeNextFreeLocationOnTurn() {
-        computerPlayer.startTurn();
+        computerPlayer.takeTurn();
 
         verify(board).makeMoveWithSymbol(3, 'O');
     }
 
     @Test
     public void shouldDrawNewBoardAtEndOfTurn() {
-        computerPlayer.startTurn();
+        computerPlayer.takeTurn();
 
         verify(board).draw();
     }
 
     @Test
     public void shouldPrintComputerMoveOnTurn() {
-        computerPlayer.startTurn();
+        computerPlayer.takeTurn();
 
         verify(console).printMessage("Computer chose location 3");
     }
 
     @Test
     public void shouldPrintComputerWinWhenWins() {
-        when(board.makeMoveWithSymbol(3, 'O')).thenReturn(true);
-        computerPlayer.startTurn();
+        computerPlayer.didPlayerWin();
 
-        verify(console).printMessage("Computer wins! Ha hah!");
+        verify(board).isWinningBoard('O');
+    }
+
+    @Test
+    public void shouldPrintSnarkyMessageIfComputerWins() {
+        computerPlayer.printWinMessage();
+
+        verify(console).printMessage("Computer won! In yo face!");
     }
 }

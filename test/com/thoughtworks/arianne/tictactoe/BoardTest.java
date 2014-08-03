@@ -70,7 +70,6 @@ public class BoardTest {
         board = new Board(printStream, gameState);
 
         assertThat(board.isFilled(), is(true));
-        verify(printStream).println("Game is a draw");
     }
 
     @Test
@@ -80,58 +79,58 @@ public class BoardTest {
     }
 
     @Test
-    public void shouldReturnTrueIfPlayerWonFromColumn() {
+    public void shouldReturnTrueIfBoardWonFromColumn() {
         gameState = new char[]{
                 'X', 'O', 'X',
                 'X', 'O', 'X',
-                ' ', ' ', ' '};
+                ' ', 'O', ' '};
         board = new Board(printStream, gameState);
 
-        assertThat(board.makeMoveWithSymbol(8, 'O'), is(true));
+        assertThat(board.isWinningBoard('O'), is(true));
     }
 
     @Test
-    public void shouldReturnTrueIfPlayerWonFromRow() {
+    public void shouldReturnFalseIfBoardWonFromDifferentSymbol() {
         gameState = new char[]{
                 'X', 'O', 'X',
-                'O', 'O', ' ',
-                'X', 'X', ' '};
+                'X', 'O', 'X',
+                ' ', 'O', ' '};
         board = new Board(printStream, gameState);
 
-        assertThat(board.makeMoveWithSymbol(6, 'O'), is(true));
+        assertThat(board.isWinningBoard('X'), is(false));
     }
 
     @Test
-    public void shouldReturnTrueIfPlayerWonFromDiagonal1() {
+    public void shouldReturnTrueIfBoardWonFromRow() {
+        gameState = new char[]{
+                'X', 'O', 'O',
+                'O', 'O', 'X',
+                'X', 'X', 'X'};
+        board = new Board(printStream, gameState);
+
+        assertThat(board.isWinningBoard('X'), is(true));
+    }
+
+    @Test
+    public void shouldReturnFalseIfNotWinningBoard() {
         gameState = new char[]{
                 'O', 'O', 'X',
                 'X', 'O', 'X',
                 'X', ' ', ' '};
         board = new Board(printStream, gameState);
 
-        assertThat(board.makeMoveWithSymbol(9, 'O'), is(true));
+        assertThat(board.isWinningBoard('X'), is(false));
     }
 
     @Test
-    public void shouldReturnTrueIfPlayerWonFromDiagonal2() {
+    public void shouldReturnTrueIfBoardWinWithDiagonal() {
         gameState = new char[]{
                 'O', 'O', 'X',
                 'X', 'X', 'O',
-                ' ', ' ', ' '};
+                'X', ' ', ' '};
         board = new Board(printStream, gameState);
 
-        assertThat(board.makeMoveWithSymbol(7, 'X'), is(true));
-    }
-
-    @Test
-    public void shouldReturnFalseIfPlayerDidNotWinOnMove() {
-        gameState = new char[]{
-                'X', 'O', 'X',
-                'X', 'O', 'X',
-                ' ', ' ', ' '};
-        board = new Board(printStream, gameState);
-
-        assertThat(board.makeMoveWithSymbol(8, 'X'), is(false));
+        assertThat(board.isWinningBoard('X'), is(true));
     }
 
     @Test

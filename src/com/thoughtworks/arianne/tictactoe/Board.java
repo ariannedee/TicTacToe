@@ -27,7 +27,7 @@ public class Board {
         if (gameState[location-1] == ' ') {
             gameState[location - 1] = symbol;
 
-            return checkForWin(location, symbol);
+            return true;
         }
         return false;
     }
@@ -38,8 +38,6 @@ public class Board {
                 return false;
             }
         }
-
-        printStream.println("Game is a draw");
         return true;
     }
 
@@ -56,22 +54,26 @@ public class Board {
         return false;
     }
 
-    private boolean checkForWin(int location, char symbol) {
-        int index = location-1;
-        int row = index/3;
-        int column = index%3;
-
-        boolean win;
-
-        win = checkRow(row, symbol);
-        win = win || checkColumn(column, symbol);
-        if (row == column) {
-            win = win || checkDiagonal1(symbol);
+    public boolean isWinningBoard(char symbol) {
+        boolean boardIsWon = false;
+        for (int i=0; i<3; i++) {
+            boardIsWon = boardIsWon || checkRow(i, symbol);
+            boardIsWon = boardIsWon || checkColumn(i, symbol);
         }
-        if (row+column == 2) {
-            win = win || checkDiagonal2(symbol);
+
+        return boardIsWon || checkDiagonal1(symbol) || checkDiagonal2(symbol);
+    }
+
+    public List<Integer> getFreeLocations() {
+        List<Integer> freeLocations = new ArrayList<Integer>();
+
+        for (int i = 0; i<gameState.length; i++) {
+            if (gameState[i] == ' ') {
+                freeLocations.add(i+1);
+            }
         }
-        return win;
+
+        return freeLocations;
     }
 
     private boolean checkLineMatchesSymbol(int[] indicesToCheck, char symbol) {
@@ -116,15 +118,7 @@ public class Board {
         return checkLineMatchesSymbol(indicesToCheck, symbol);
     }
 
-    public List<Integer> getFreeLocations() {
-        List<Integer> freeLocations = new ArrayList<Integer>();
-
-        for (int i = 0; i<gameState.length; i++) {
-            if (gameState[i] == ' ') {
-                freeLocations.add(i+1);
-            }
-        }
-
-        return freeLocations;
+    public void printIsDrawMessage() {
+        printStream.println("Game is a draw");
     }
 }

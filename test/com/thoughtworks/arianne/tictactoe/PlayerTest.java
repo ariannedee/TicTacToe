@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 public class PlayerTest {
@@ -27,9 +25,15 @@ public class PlayerTest {
 
     @Test
     public void shouldTakeTurnWithValidMove() throws IOException {
-        player.startTurn();
+        player.takeTurn();
 
         verify(board).makeMoveWithSymbol(2, 'X');
+    }
+
+    @Test
+    public void shouldPromptForPlayerMove() throws IOException {
+        player.takeTurn();
+
         verify(console).printPrompt("Player 2, enter a number from 1-9");
     }
 
@@ -37,7 +41,7 @@ public class PlayerTest {
     public void shouldTakeTurnUntilValidMove() throws IOException {
         when(console.getPlayerMoveIfValid()).thenReturn(0).thenReturn(2);
 
-        player.startTurn();
+        player.takeTurn();
 
         verify(console, times(2)).getPlayerMoveIfValid();
     }
@@ -47,22 +51,15 @@ public class PlayerTest {
         when(board.isFreeLocation(1)).thenReturn(false);
         when(console.getPlayerMoveIfValid()).thenReturn(1).thenReturn(2);
 
-        player.startTurn();
+        player.takeTurn();
 
         verify(console, times(2)).printPrompt("Player 2, enter a number from 1-9");
     }
 
     @Test
-    public void shouldReturnTrueIfPlayerWon() {
-        assertThat(player.startTurn(), is(true));
+    public void shouldCheckIfPlayerWon() {
+        player.didPlayerWin();
 
-        verify(console).printMessage("Player 2 won!");
-    }
-
-    @Test
-    public void shouldReturnFalseIfPlayerDidNotWin() {
-        when(board.makeMoveWithSymbol(2, 'X')).thenReturn(false);
-
-        assertThat(player.startTurn(), is(false));
+        verify(board).isWinningBoard('X');
     }
 }

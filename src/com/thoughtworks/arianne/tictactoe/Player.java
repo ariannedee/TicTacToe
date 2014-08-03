@@ -14,28 +14,30 @@ public class Player {
         this.console = console;
     }
 
-    public boolean startTurn() {
-        while (true) {
+    public void takeTurn() {
+        boolean turnInProgress = true;
+        while (turnInProgress) {
             console.printPrompt("Player " + numPlayer + ", enter a number from 1-9");
 
             int validLocation = console.getPlayerMoveIfValid();
 
             if (board.isFreeLocation(validLocation)) {
-                return makeMove(validLocation);
+                makeMove(validLocation);
+                turnInProgress = false;
             }
         }
     }
 
-    protected boolean makeMove(int validLocation) {
-        boolean didPlayerWin = board.makeMoveWithSymbol(validLocation, symbol);
+    private void makeMove(int validLocation) {
+        board.makeMoveWithSymbol(validLocation, symbol);
         board.draw();
-        handleWin(didPlayerWin);
-        return didPlayerWin;
     }
 
-    private void handleWin(boolean didPlayerWin) {
-        if (didPlayerWin) {
-            console.printMessage("Player " + numPlayer + " won!");
-        }
+    public void printWinMessage() {
+        console.printMessage("Player " + numPlayer + " won!");
+    }
+
+    public boolean didPlayerWin() {
+        return board.isWinningBoard(symbol);
     }
 }

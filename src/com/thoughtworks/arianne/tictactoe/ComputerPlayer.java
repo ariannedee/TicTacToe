@@ -9,19 +9,21 @@ public class ComputerPlayer extends Player {
     }
 
     @Override
-    public boolean startTurn() {
+    public void takeTurn() {
         List<Integer> freeLocations = board.getFreeLocations();
 
         Integer move = freeLocations.get(0);
-        boolean didComputerWin = board.makeMoveWithSymbol(move, symbol);
+        makeMove(move);
+    }
+
+    private void makeMove(Integer move) {
+        board.makeMoveWithSymbol(move, symbol);
         console.printMessage("Computer chose location " + move);
-
         board.draw();
+    }
 
-        if (didComputerWin) {
-            console.printMessage("Computer wins! Ha hah!");
-        }
-
-        return didComputerWin;
+    @Override
+    public void printWinMessage() {
+        console.printMessage("Computer won! In yo face!");
     }
 }

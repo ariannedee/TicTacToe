@@ -33,29 +33,29 @@ public class TicTacToeTest {
     public void shouldStartPlayer1TurnWhenGameStarts() throws IOException {
         ticTacToe.start();
 
-        verify(player1).startTurn();
+        verify(player1).takeTurn();
     }
 
     @Test
     public void shouldMakePlayerMove() throws IOException {
         ticTacToe.start();
 
-        verify(player1).startTurn();
+        verify(player1).takeTurn();
     }
 
     @Test
     public void shouldMakeMoveForPlayer2() throws IOException {
-        when(player1.startTurn()).thenReturn(false);
+        when(player1.didPlayerWin()).thenReturn(false);
         when(board.isFilled()).thenReturn(false).thenReturn(true);
 
         ticTacToe.start();
 
-        verify(player2).startTurn();
+        verify(player2).takeTurn();
     }
 
     @Test
     public void shouldCheckForWinBeforeCheckingForDraw() {
-        when(player1.startTurn()).thenReturn(true);
+        when(player1.didPlayerWin()).thenReturn(true);
 
         ticTacToe.start();
 
@@ -64,8 +64,7 @@ public class TicTacToeTest {
 
     @Test
     public void shouldCheckIfBoardFilledIfPlayerDidNotWin() {
-        when(player1.startTurn()).thenReturn(false);
-        when(player2.startTurn()).thenReturn(true);
+        when(player1.didPlayerWin()).thenReturn(false);
 
         ticTacToe.start();
 

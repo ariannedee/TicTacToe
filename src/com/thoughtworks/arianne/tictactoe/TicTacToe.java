@@ -19,11 +19,35 @@ public class TicTacToe {
         while(gameInProgress) {
             Player player = isPlayer1Turn? player1 : player2;
 
-            boolean playerWon = player.startTurn();
+            player.takeTurn();
+
+            gameInProgress = !isGameOver(player);
 
             isPlayer1Turn = !isPlayer1Turn;
-
-            gameInProgress = !playerWon && !board.isFilled();
         }
+    }
+
+    private boolean isGameOver(Player player) {
+        return playerWon(player) || gameIsDraw();
+    }
+
+    private boolean gameIsDraw() {
+        boolean isBoardFull = board.isFilled();
+
+        if (isBoardFull) {
+            board.printIsDrawMessage();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean playerWon(Player player) {
+        boolean playerWon = player.didPlayerWin();
+
+        if (playerWon) {
+            player.printWinMessage();
+            return true;
+        }
+        return false;
     }
 }
