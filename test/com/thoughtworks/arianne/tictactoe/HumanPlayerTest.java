@@ -7,9 +7,9 @@ import java.io.IOException;
 
 import static org.mockito.Mockito.*;
 
-public class PlayerTest {
+public class HumanPlayerTest {
 
-    private Player player;
+    private HumanPlayer player;
     private Board board;
     private Console console;
 
@@ -17,7 +17,7 @@ public class PlayerTest {
     public void setUp() throws Exception {
         board = mock(Board.class);
         console = mock(Console.class);
-        player = new Player(board, 'X', 2, console);
+        player = new HumanPlayer(board, 'X', 2, console);
         when(console.getPlayerMoveIfValid()).thenReturn(2);
         when(board.makeMoveWithSymbol(2, 'X')).thenReturn(true);
         when(board.isFreeLocation(2)).thenReturn(true);

@@ -10,14 +10,14 @@ import static org.mockito.Mockito.*;
 public class TicTacToeTest {
     private TicTacToe ticTacToe;
     private Board board;
-    private Player player2;
-    private Player player1;
+    private HumanPlayer player2;
+    private HumanPlayer player1;
 
     @Before
     public void setUp() {
         board = mock(Board.class);
-        player1 = mock(Player.class);
-        player2 = mock(Player.class);
+        player1 = mock(HumanPlayer.class);
+        player2 = mock(HumanPlayer.class);
         ticTacToe = new TicTacToe(board, player1, player2);
         when(board.isFilled()).thenReturn(true);
     }

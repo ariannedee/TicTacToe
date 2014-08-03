@@ -19,7 +19,7 @@ public class ComputerPlayerTest {
     public void setUp() throws Exception {
         board = mock(Board.class);
         console = mock(Console.class);
-        computerPlayer = new ComputerPlayer(board, 'O', 1, console);
+        computerPlayer = new ComputerPlayer(board, 'O', console);
         when(board.makeMoveWithSymbol(1, 'O')).thenReturn(true);
         List<Integer> freeLocations = Arrays.asList(3, 4, 6, 7, 9);
         when(board.getFreeLocations()).thenReturn(freeLocations);

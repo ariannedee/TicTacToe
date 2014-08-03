@@ -2,10 +2,15 @@ package com.thoughtworks.arianne.tictactoe;
 
 import java.util.List;
 
-public class ComputerPlayer extends Player {
-    public ComputerPlayer(Board board, char symbol, int playerNum, Console console) {
+public class ComputerPlayer implements Player {
+    private char symbol;
+    private Board board;
+    private Console console;
 
-        super(board, symbol, playerNum, console);
+    public ComputerPlayer(Board board, char symbol, Console console) {
+        this.symbol = symbol;
+        this.board = board;
+        this.console = console;
     }
 
     @Override
@@ -25,5 +30,10 @@ public class ComputerPlayer extends Player {
     @Override
     public void printWinMessage() {
         console.printMessage("Computer won! In yo face!");
+    }
+
+    @Override
+    public boolean didPlayerWin() {
+        return board.isWinningBoard(symbol);
     }
 }
