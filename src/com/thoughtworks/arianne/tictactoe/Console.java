@@ -36,7 +36,7 @@ public class Console {
         printStream.println("Player " + playerNum + ": (enter a number from 1-9)");
     }
 
-//    public void printLocationTakenMessage() {
-//        printStream.println("Location already taken, please try again\n");
-//    }
+    public void displayWinMessage(int numPlayer) {
+        printStream.println("Player " + numPlayer + " wins!\n");
+    }
 }

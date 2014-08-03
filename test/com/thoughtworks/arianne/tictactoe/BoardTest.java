@@ -60,21 +60,12 @@ public class BoardTest {
                         "   |   |  \n");
     }
 
-//    @Test
-//    public void shouldSeeThatLocationIsNotTaken() {
-//        assertThat(board.makeMoveWithSymbol(3, 'X'), is(true));
-//    }
-//
-//    @Test
-//    public void shouldSeeIfLocationIsAlreadyTaken() {
-//        board.makeMoveWithSymbol(3, 'X');
-//
-//        assertThat(board.makeMoveWithSymbol(3, 'O'), is(false));
-//    }
-
     @Test
     public void shouldReturnTrueIfGameBoardFilled() {
-        gameState = new char[]{'X', 'O', 'X', 'X', 'O', 'X', 'X', 'O', 'X'};
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'X', 'O', 'X',
+                'X', 'O', 'X'};
         board = new Board(printStream, gameState);
 
         assertThat(board.isFilled(), is(true));
@@ -85,5 +76,60 @@ public class BoardTest {
     public void shouldReturnFalseIfGameBoardNotFilled() {
         boolean filled = board.isFilled();
         assertThat(filled, is(false));
+    }
+
+    @Test
+    public void shouldReturnTrueIfPlayerWonFromColumn() {
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'X', 'O', 'X',
+                ' ', ' ', ' '};
+        board = new Board(printStream, gameState);
+
+        assertThat(board.makeMoveWithSymbol(8, 'O'), is(true));
+    }
+
+    @Test
+    public void shouldReturnTrueIfPlayerWonFromRow() {
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'O', 'O', ' ',
+                'X', 'X', ' '};
+        board = new Board(printStream, gameState);
+
+        assertThat(board.makeMoveWithSymbol(6, 'O'), is(true));
+    }
+
+    @Test
+    public void shouldReturnTrueIfPlayerWonFromDiagonal1() {
+        gameState = new char[]{
+                'O', 'O', 'X',
+                'X', 'O', 'X',
+                'X', ' ', ' '};
+        board = new Board(printStream, gameState);
+
+        assertThat(board.makeMoveWithSymbol(9, 'O'), is(true));
+    }
+
+    @Test
+    public void shouldReturnTrueIfPlayerWonFromDiagonal2() {
+        gameState = new char[]{
+                'O', 'O', 'X',
+                'X', 'X', 'O',
+                ' ', ' ', ' '};
+        board = new Board(printStream, gameState);
+
+        assertThat(board.makeMoveWithSymbol(7, 'X'), is(true));
+    }
+
+    @Test
+    public void shouldReturnFalseIfPlayerDidNotWinOnMove() {
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'X', 'O', 'X',
+                ' ', ' ', ' '};
+        board = new Board(printStream, gameState);
+
+        assertThat(board.makeMoveWithSymbol(8, 'X'), is(false));
     }
 }

@@ -37,10 +37,10 @@ public class ConsoleTest {
         verify(bufferedReader).readLine();
     }
 
-//    @Test
-//    public void shouldPrintLocationTakenMessage() {
-//        console.printLocationTakenMessage();
-//
-//        verify(printStream).println("Location already taken, please try again\n");
-//    }
+    @Test
+    public void shouldDisplayProperWinMessage() {
+        console.displayWinMessage(2);
+
+        verify(printStream).println("Player 2 wins!\n");
+    }
 }

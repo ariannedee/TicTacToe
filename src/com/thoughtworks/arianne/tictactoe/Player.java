@@ -21,10 +21,21 @@ public class Player {
             int validLocation = console.getPlayerMoveIfValid();
 
             if (board.isFreeLocation(validLocation)) {
-                boolean didPlayerWin = board.makeMoveWithSymbol(validLocation, symbol);
-                board.draw();
-                return didPlayerWin;
+                return makeMove(validLocation);
             }
+        }
+    }
+
+    private boolean makeMove(int validLocation) {
+        boolean didPlayerWin = board.makeMoveWithSymbol(validLocation, symbol);
+        board.draw();
+        handleWin(didPlayerWin);
+        return didPlayerWin;
+    }
+
+    private void handleWin(boolean didPlayerWin) {
+        if (didPlayerWin) {
+            console.displayWinMessage(numPlayer);
         }
     }
 }

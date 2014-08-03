@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 public class PlayerTest {
@@ -18,14 +20,13 @@ public class PlayerTest {
         board = mock(Board.class);
         console = mock(Console.class);
         player = new Player(board, 'X', 1, console);
+        when(console.getPlayerMoveIfValid()).thenReturn(2);
         when(board.makeMoveWithSymbol(2, 'X')).thenReturn(true);
+        when(board.isFreeLocation(2)).thenReturn(true);
     }
 
     @Test
     public void shouldTakeTurnWithValidMove() throws IOException {
-        when(console.getPlayerMoveIfValid()).thenReturn(2);
-        when(board.isFreeLocation(2)).thenReturn(true);
-
         player.startTurn();
 
         verify(board).makeMoveWithSymbol(2, 'X');
@@ -35,7 +36,6 @@ public class PlayerTest {
     @Test
     public void shouldTakeTurnUntilValidMove() throws IOException {
         when(console.getPlayerMoveIfValid()).thenReturn(0).thenReturn(2);
-        when(board.isFreeLocation(2)).thenReturn(true);
 
         player.startTurn();
 
@@ -44,9 +44,8 @@ public class PlayerTest {
 
     @Test
     public void shouldRepeatTurnIfLocationTaken() throws IOException {
-        when(board.isFreeLocation(2)).thenReturn(false);
-        when(board.isFreeLocation(1)).thenReturn(true);
-        when(console.getPlayerMoveIfValid()).thenReturn(2).thenReturn(1);
+        when(board.isFreeLocation(1)).thenReturn(false);
+        when(console.getPlayerMoveIfValid()).thenReturn(1).thenReturn(2);
 
         player.startTurn();
 
@@ -56,7 +55,14 @@ public class PlayerTest {
 
     @Test
     public void shouldReturnTrueIfPlayerWon() {
-        when(board.makeMoveWithSymbol(1, 'X')).thenReturn(false).thenReturn(true);
+        assertThat(player.startTurn(), is(true));
+        verify(console).displayWinMessage(1);
+    }
 
+    @Test
+    public void shouldReturnFalseIfPlayerDidNotWin() {
+        when(board.makeMoveWithSymbol(2, 'X')).thenReturn(false);
+
+        assertThat(player.startTurn(), is(false));
     }
 }
