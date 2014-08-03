@@ -43,4 +43,11 @@ public class ConsoleTest {
 
         verify(printStream).println("Player 2 wins!\n");
     }
+
+    @Test
+    public void shouldPrintMessage() {
+        console.printMessage("Computer chose location 3");
+
+        verify(printStream).println("Computer chose location 3");
+    }
 }

@@ -50,7 +50,6 @@ public class PlayerTest {
         player.startTurn();
 
         verify(console, times(2)).promptForPlayerTurn(1);
-//        verify(console).printLocationTakenMessage();
     }
 
     @Test

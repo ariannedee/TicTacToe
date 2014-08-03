@@ -1,6 +1,8 @@
 package com.thoughtworks.arianne.tictactoe;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private char[] gameState;
@@ -112,5 +114,17 @@ public class Board {
         int[] indicesToCheck = {2, 4, 6};
 
         return checkLineMatchesSymbol(indicesToCheck, symbol);
+    }
+
+    public List<Integer> getFreeLocations() {
+        List<Integer> freeLocations = new ArrayList<Integer>();
+
+        for (int i = 0; i<gameState.length; i++) {
+            if (gameState[i] == ' ') {
+                freeLocations.add(i+1);
+            }
+        }
+
+        return freeLocations;
     }
 }

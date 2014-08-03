@@ -1,11 +1,11 @@
 package com.thoughtworks.arianne.tictactoe;
 
 public class Player {
-    private char symbol;
+    protected char symbol;
     private int numPlayer;
 
-    private Board board;
-    private Console console;
+    protected Board board;
+    protected Console console;
 
     public Player(Board board, char symbol, int numPlayer, Console console) {
         this.board = board;
@@ -26,7 +26,7 @@ public class Player {
         }
     }
 
-    private boolean makeMove(int validLocation) {
+    protected boolean makeMove(int validLocation) {
         boolean didPlayerWin = board.makeMoveWithSymbol(validLocation, symbol);
         board.draw();
         handleWin(didPlayerWin);

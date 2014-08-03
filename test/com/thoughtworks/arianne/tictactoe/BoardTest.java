@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -27,7 +28,7 @@ public class BoardTest {
         board.draw();
 
         verify(printStream).println(
-                        "   |   |  \n" +
+                "   |   |  \n" +
                         "-----------\n" +
                         "   |   |  \n" +
                         "-----------\n" +
@@ -53,7 +54,7 @@ public class BoardTest {
         board.draw();
 
         verify(printStream).println(
-                        "   |   | O\n" +
+                "   |   | O\n" +
                         "-----------\n" +
                         "   |   |  \n" +
                         "-----------\n" +
@@ -131,5 +132,20 @@ public class BoardTest {
         board = new Board(printStream, gameState);
 
         assertThat(board.makeMoveWithSymbol(8, 'X'), is(false));
+    }
+
+    @Test
+    public void shouldReturnFreeLocations() {
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'X', 'O', 'X',
+                ' ', ' ', ' '};
+        board = new Board(printStream, gameState);
+
+        List<Integer> freeLocations = board.getFreeLocations();
+        assertThat(freeLocations.get(0), is(7));
+        assertThat(freeLocations.get(1), is(8));
+        assertThat(freeLocations.get(2), is(9));
+        assertThat(freeLocations.size(), is(3));
     }
 }

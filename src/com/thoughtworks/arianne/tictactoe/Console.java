@@ -39,4 +39,8 @@ public class Console {
     public void displayWinMessage(int numPlayer) {
         printStream.println("Player " + numPlayer + " wins!\n");
     }
+
+    public void printMessage(String message) {
+        printStream.println(message);
+    }
 }
