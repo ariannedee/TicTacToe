@@ -32,15 +32,11 @@ public class Console {
         return 0;
     }
 
-    public void promptForPlayerTurn(int playerNum) {
-        printStream.println("Player " + playerNum + ": (enter a number from 1-9)");
-    }
-
-    public void displayWinMessage(int numPlayer) {
-        printStream.println("Player " + numPlayer + " wins!\n");
-    }
-
     public void printMessage(String message) {
         printStream.println(message);
+    }
+
+    public void printPrompt(String promptMessage) {
+        printStream.print(promptMessage + ": ");
     }
 }

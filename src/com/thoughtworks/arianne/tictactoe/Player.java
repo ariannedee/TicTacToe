@@ -16,7 +16,7 @@ public class Player {
 
     public boolean startTurn() {
         while (true) {
-            console.promptForPlayerTurn(numPlayer);
+            console.printPrompt("Player " + numPlayer + ", enter a number from 1-9");
 
             int validLocation = console.getPlayerMoveIfValid();
 
@@ -35,7 +35,7 @@ public class Player {
 
     private void handleWin(boolean didPlayerWin) {
         if (didPlayerWin) {
-            console.displayWinMessage(numPlayer);
+            console.printMessage("Player " + numPlayer + " won!");
         }
     }
 }

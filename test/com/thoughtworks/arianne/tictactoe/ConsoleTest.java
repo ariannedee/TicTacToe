@@ -24,13 +24,6 @@ public class ConsoleTest {
     }
 
     @Test
-    public void shouldPromptForPlayerTurn() throws IOException {
-        console.promptForPlayerTurn(1);
-
-        verify(printStream).println("Player 1: (enter a number from 1-9)");
-    }
-
-    @Test
     public void shouldGetValidMove() throws IOException {
         console.getPlayerMoveIfValid();
 
@@ -38,16 +31,16 @@ public class ConsoleTest {
     }
 
     @Test
-    public void shouldDisplayProperWinMessage() {
-        console.displayWinMessage(2);
-
-        verify(printStream).println("Player 2 wins!\n");
-    }
-
-    @Test
     public void shouldPrintMessage() {
         console.printMessage("Computer chose location 3");
 
         verify(printStream).println("Computer chose location 3");
+    }
+
+    @Test
+    public void shouldPrintPromptWithMessage() {
+        console.printPrompt("Player 1 move");
+
+        verify(printStream).print("Player 1 move: ");
     }
 }

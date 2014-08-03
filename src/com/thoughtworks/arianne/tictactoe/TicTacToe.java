@@ -23,7 +23,7 @@ public class TicTacToe {
 
             isPlayer1Turn = !isPlayer1Turn;
 
-            gameInProgress = !board.isFilled() && !playerWon;
+            gameInProgress = !playerWon && !board.isFilled();
         }
     }
 }

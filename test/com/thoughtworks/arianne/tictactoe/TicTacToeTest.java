@@ -52,4 +52,23 @@ public class TicTacToeTest {
 
         verify(player2).startTurn();
     }
+
+    @Test
+    public void shouldCheckForWinBeforeCheckingForDraw() {
+        when(player1.startTurn()).thenReturn(true);
+
+        ticTacToe.start();
+
+        verify(board, times(0)).isFilled();
+    }
+
+    @Test
+    public void shouldCheckIfBoardFilledIfPlayerDidNotWin() {
+        when(player1.startTurn()).thenReturn(false);
+        when(player2.startTurn()).thenReturn(true);
+
+        ticTacToe.start();
+
+        verify(board).isFilled();
+    }
 }

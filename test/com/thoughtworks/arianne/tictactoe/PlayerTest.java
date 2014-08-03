@@ -19,7 +19,7 @@ public class PlayerTest {
     public void setUp() throws Exception {
         board = mock(Board.class);
         console = mock(Console.class);
-        player = new Player(board, 'X', 1, console);
+        player = new Player(board, 'X', 2, console);
         when(console.getPlayerMoveIfValid()).thenReturn(2);
         when(board.makeMoveWithSymbol(2, 'X')).thenReturn(true);
         when(board.isFreeLocation(2)).thenReturn(true);
@@ -30,7 +30,7 @@ public class PlayerTest {
         player.startTurn();
 
         verify(board).makeMoveWithSymbol(2, 'X');
-        verify(console).promptForPlayerTurn(1);
+        verify(console).printPrompt("Player 2, enter a number from 1-9");
     }
 
     @Test
@@ -49,13 +49,14 @@ public class PlayerTest {
 
         player.startTurn();
 
-        verify(console, times(2)).promptForPlayerTurn(1);
+        verify(console, times(2)).printPrompt("Player 2, enter a number from 1-9");
     }
 
     @Test
     public void shouldReturnTrueIfPlayerWon() {
         assertThat(player.startTurn(), is(true));
-        verify(console).displayWinMessage(1);
+
+        verify(console).printMessage("Player 2 won!");
     }
 
     @Test
