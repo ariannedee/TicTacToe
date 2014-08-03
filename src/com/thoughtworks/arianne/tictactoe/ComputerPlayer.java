@@ -18,13 +18,14 @@ public class ComputerPlayer implements Player {
         List<Integer> freeLocations = board.getFreeLocations();
 
         Integer move = freeLocations.get(0);
-        makeMove(move);
-    }
 
-    private void makeMove(Integer move) {
-        board.makeMoveWithSymbol(move, symbol);
-        console.printMessage("Computer chose location " + move);
-        board.draw();
+        int winMove = board.getWinningMove(symbol);
+
+        if (winMove > 0){
+            makeMove(winMove);
+        } else {
+            makeMove(move);
+        }
     }
 
     @Override
@@ -35,5 +36,11 @@ public class ComputerPlayer implements Player {
     @Override
     public boolean didPlayerWin() {
         return board.isWinningBoard(symbol);
+    }
+
+    private void makeMove(Integer move) {
+        board.makeMoveWithSymbol(move, symbol);
+        console.printMessage("Computer chose location " + move);
+        board.draw();
     }
 }

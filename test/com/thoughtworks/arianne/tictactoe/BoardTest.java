@@ -147,4 +147,69 @@ public class BoardTest {
         assertThat(freeLocations.get(2), is(9));
         assertThat(freeLocations.size(), is(3));
     }
+
+    @Test
+    public void shouldReturnWinningMoveForSymbol() {
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'X', 'O', 'X',
+                ' ', ' ', ' '};
+        board = new Board(printStream, gameState);
+
+        int winningMove = board.getWinningMove('O');
+
+        assertThat(winningMove, is(8));
+    }
+
+    @Test
+    public void shouldReturnFirstWinningMoveForSymbol() {
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'X', 'O', 'X',
+                ' ', ' ', ' '};
+        board = new Board(printStream, gameState);
+
+        int winningMove = board.getWinningMove('X');
+
+        assertThat(winningMove, is(7));
+    }
+
+    @Test
+    public void shouldReturnWinningMoveForRow() {
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'X', 'X', ' ',
+                'O', 'O', ' '};
+        board = new Board(printStream, gameState);
+
+        int winningMove = board.getWinningMove('X');
+
+        assertThat(winningMove, is(6));
+    }
+
+    @Test
+    public void shouldReturnWinningMoveForDiagonal() {
+        gameState = new char[]{
+                'X', 'O', 'X',
+                'O', 'X', ' ',
+                'O', 'X', ' '};
+        board = new Board(printStream, gameState);
+
+        int winningMove = board.getWinningMove('X');
+
+        assertThat(winningMove, is(9));
+    }
+
+    @Test
+    public void shouldReturnZeroIfNoWinningMoves() {
+        gameState = new char[]{
+                'X', 'O', 'O',
+                'O', 'X', 'X',
+                ' ', ' ', 'O'};
+        board = new Board(printStream, gameState);
+
+        int winningMove = board.getWinningMove('X');
+
+        assertThat(winningMove, is(0));
+    }
 }

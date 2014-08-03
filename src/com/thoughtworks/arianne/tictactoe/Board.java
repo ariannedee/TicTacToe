@@ -2,6 +2,7 @@ package com.thoughtworks.arianne.tictactoe;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Board {
@@ -76,7 +77,7 @@ public class Board {
         return freeLocations;
     }
 
-    private boolean checkLineMatchesSymbol(int[] indicesToCheck, char symbol) {
+    private boolean checkLineMatchesSymbol(List<Integer> indicesToCheck, char symbol) {
         boolean result = true;
 
         for (int index : indicesToCheck) {
@@ -91,7 +92,7 @@ public class Board {
         int second = first+1;
         int third = second+1;
 
-        int[] indicesToCheck = {first, second, third};
+        List<Integer> indicesToCheck = new ArrayList(Arrays.asList(first, second, third));
 
         return checkLineMatchesSymbol(indicesToCheck, symbol);
     }
@@ -101,24 +102,64 @@ public class Board {
         int second = first+3;
         int third = second+3;
 
-        int[] indicesToCheck = {first, second, third};
+        List<Integer> indicesToCheck = new ArrayList(Arrays.asList(first, second, third));
 
         return checkLineMatchesSymbol(indicesToCheck, symbol);
     }
 
     private boolean checkDiagonal1(char symbol) {
-        int[] indicesToCheck = {0, 4, 8};
+        List<Integer> indicesToCheck = new ArrayList(Arrays.asList(0, 4, 8));
 
         return checkLineMatchesSymbol(indicesToCheck, symbol);
     }
 
     private boolean checkDiagonal2(char symbol) {
-        int[] indicesToCheck = {2, 4, 6};
+        List<Integer> indicesToCheck = new ArrayList(Arrays.asList(2, 4, 6));
 
         return checkLineMatchesSymbol(indicesToCheck, symbol);
     }
 
     public void printIsDrawMessage() {
         printStream.println("Game is a draw");
+    }
+
+    public int getWinningMove(char symbol) {
+        List<Integer> freeLocations = getFreeLocations();
+        for (Integer location : freeLocations) {
+            if (wouldWinGame(location, symbol)) {
+                return location;
+            }
+        }
+        return 0;
+    }
+
+    private boolean wouldWinGame(Integer location, char symbol) {
+        int index = location-1;
+        int row = index/3;
+        int column = index%3;
+
+        List<Integer> rowToCheck = new ArrayList<Integer>(Arrays.asList(row*3, row*3+1, row*3+2));
+        rowToCheck.remove(column);
+
+        List<Integer> columnToCheck = new ArrayList<Integer>(Arrays.asList(column, column+3, column+6));
+        columnToCheck.remove(row);
+
+        boolean result = false;
+        result = result || checkLineMatchesSymbol(rowToCheck, symbol);
+        result = result || checkLineMatchesSymbol(columnToCheck, symbol);
+
+        if (row == column) {
+            List<Integer> diagonalToCheck = new ArrayList<Integer>(Arrays.asList(0, 4, 8));
+            diagonalToCheck.remove(row);
+            result = result || checkLineMatchesSymbol(diagonalToCheck, symbol);
+        }
+
+        if (row+column == 2) {
+            List<Integer> diagonalToCheck = new ArrayList<Integer>(Arrays.asList(2, 4, 6));
+            diagonalToCheck.remove(row);
+            result = result || checkLineMatchesSymbol(diagonalToCheck, symbol);
+        }
+
+        return result;
     }
 }

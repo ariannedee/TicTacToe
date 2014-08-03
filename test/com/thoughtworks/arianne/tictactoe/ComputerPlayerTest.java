@@ -69,4 +69,12 @@ public class ComputerPlayerTest {
 
         verify(console).printMessage("Computer won! In yo face!");
     }
+
+    @Test
+    public void shouldTakeWinningMoveIfAvailable() {
+        when(board.getWinningMove('O')).thenReturn(6);
+        computerPlayer.takeTurn();
+
+        verify(board).makeMoveWithSymbol(6, 'O');
+    }
 }
